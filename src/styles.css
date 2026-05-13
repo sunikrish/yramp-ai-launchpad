@@ -80,6 +80,9 @@
     border-color: var(--color-border);
   }
 
+  html {
+    scroll-behavior: smooth;
+  }
   html, body {
     background-color: var(--color-hero-bg);
     color: var(--color-foreground);
