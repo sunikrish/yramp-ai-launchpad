@@ -1,5 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Suspense, lazy } from "react";
+import { Suspense, lazy, useState } from "react";
+import { Reveal } from "@/components/Reveal";
+import {
+  Layers,
+  Building2,
+  Globe,
+  Smartphone,
+  Package,
+  Compass,
+  ArrowUpRight,
+  Mail,
+} from "lucide-react";
 
 const Spline = lazy(() => import("@splinetool/react-spline"));
 
