@@ -35,7 +35,12 @@ export const Route = createFileRoute("/")({
 });
 
 function Nav() {
-  const links = ["Services", "About Us", "Projects", "Team", "Contacts"];
+  const links = [
+    { label: "Services", href: "#services" },
+    { label: "Projects", href: "#projects" },
+    { label: "About", href: "#about" },
+    { label: "Contacts", href: "#contact" },
+  ];
   return (
     <nav className="fixed top-0 left-0 right-0 z-30 px-6 md:px-10 py-6 flex items-center justify-between">
       <a href="/" className="text-foreground font-bold tracking-[-0.02em] text-xl">
@@ -43,21 +48,22 @@ function Nav() {
       </a>
       <ul className="hidden md:flex items-center gap-8">
         {links.map((l) => (
-          <li key={l}>
+          <li key={l.label}>
             <a
-              href="#"
+              href={l.href}
               className="text-[11px] uppercase tracking-[0.18em] text-foreground/70 hover:text-primary transition-colors"
             >
-              {l}
+              {l.label}
             </a>
           </li>
         ))}
       </ul>
-      <button
+      <a
+        href="#contact"
         className="hidden md:inline-flex items-center text-[11px] uppercase tracking-[0.18em] text-foreground bg-nav-button hover:bg-nav-button/80 px-5 py-2.5 rounded-full transition-colors"
       >
         Get Quote
-      </button>
+      </a>
     </nav>
   );
 }
