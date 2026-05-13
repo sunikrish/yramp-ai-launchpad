@@ -44,7 +44,7 @@ function Nav() {
   return (
     <nav className="fixed top-0 left-0 right-0 z-30 px-6 md:px-10 py-6 flex items-center justify-between">
       <a href="/" className="text-foreground font-bold tracking-[-0.02em] text-xl">
-        YRAMP
+        Y-RAMP
       </a>
       <ul className="hidden md:flex items-center gap-8">
         {links.map((l) => (
