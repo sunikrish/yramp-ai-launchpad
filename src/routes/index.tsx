@@ -18,13 +18,13 @@ export const Route = createFileRoute("/")({
   component: Index,
   head: () => ({
     meta: [
-      { title: "YRAMP AI — Modern AI Infrastructure & Security" },
+      { title: "Y-RAMP — Modern AI Infrastructure & Security" },
       {
         name: "description",
         content:
-          "YRAMP AI builds modern AI infrastructure with zero-trust architecture. Production-ready deployments for real-world operations across Europe.",
+          "Y-RAMP builds modern AI infrastructure with zero-trust architecture. Production-ready deployments for real-world operations across Europe.",
       },
-      { property: "og:title", content: "YRAMP AI — Modern AI Infrastructure & Security" },
+      { property: "og:title", content: "Y-RAMP — Modern AI Infrastructure & Security" },
       {
         property: "og:description",
         content:
@@ -230,7 +230,7 @@ function AboutSection() {
           <SectionHeader eyebrow="03 — About" title="Small Team. Full Ownership." />
           <Reveal delay={0.1}>
             <p className="text-lg md:text-xl text-foreground/80 font-light leading-relaxed max-w-2xl">
-              YRAMP AI is a lean 2-person engineering studio. No outsourcing.
+              Y-RAMP is a lean 2-person engineering studio. No outsourcing.
               Full ownership of delivery. Fast iteration cycles. Long-term product thinking.
             </p>
           </Reveal>
@@ -358,7 +358,7 @@ function Footer() {
   return (
     <footer className="border-t border-border/40 px-6 md:px-10 py-10 bg-hero-bg">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
-        <p>© {new Date().getFullYear()} YRAMP AI</p>
+        <p>© {new Date().getFullYear()} Y-RAMP</p>
         <p>Engineered in Europe.</p>
       </div>
     </footer>
@@ -404,7 +404,7 @@ function Index() {
                   animationDelay: "0.2s",
                 }}
               >
-                YRAMP <span className="text-primary">AI</span>
+                Y-<span className="text-primary">RAMP</span>
               </h1>
 
               <p
