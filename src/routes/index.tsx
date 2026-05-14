@@ -86,7 +86,7 @@ function Nav() {
             fontSize="7"
             fontWeight="700"
             letterSpacing="2"
-            fill="hsl(var(--primary))"
+            fill="#04E83A"
           >
             GROW WITH RESPECT
           </text>
