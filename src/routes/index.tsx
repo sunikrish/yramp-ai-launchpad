@@ -234,9 +234,14 @@ function AboutSection() {
               Full ownership of delivery. Fast iteration cycles. Long-term product thinking.
             </p>
           </Reveal>
+          <Reveal delay={0.15}>
+            <p className="mt-6 text-base md:text-lg text-muted-foreground font-light leading-relaxed max-w-2xl">
+              We build and scale digital systems with respect—for product, process, and people.
+            </p>
+          </Reveal>
           <Reveal delay={0.2}>
             <p className="mt-8 text-2xl md:text-3xl font-medium text-foreground tracking-[-0.02em] max-w-2xl">
-              "We stay small so we can build <span className="text-primary">better systems</span> faster."
+              "We grow with <span className="text-brand-orange">respect</span>, and build <span className="text-primary">better systems</span> together."
             </p>
           </Reveal>
         </div>
