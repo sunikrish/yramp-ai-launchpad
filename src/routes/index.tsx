@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Suspense, lazy, useState } from "react";
 import { Reveal } from "@/components/Reveal";
+import logo from "@/assets/logo.png";
 import {
   Layers,
   Building2,
@@ -43,8 +44,8 @@ function Nav() {
   ];
   return (
     <nav className="fixed top-0 left-0 right-0 z-30 px-6 md:px-10 py-6 flex items-center justify-between">
-      <a href="/" className="text-foreground font-bold tracking-[-0.02em] text-xl">
-        Y<span className="text-brand-orange">-</span>RAMP
+      <a href="/" className="flex items-center">
+        <img src={logo} alt="Y-RAMP" className="h-9 md:h-10 w-auto object-contain" />
       </a>
       <ul className="hidden md:flex items-center gap-8">
         {links.map((l) => (
@@ -411,7 +412,7 @@ function Index() {
                   animationDelay: "0.2s",
                 }}
               >
-                Y<span className="text-brand-orange">-</span>RAMP <span className="text-primary">AI</span>
+                Y<span className="text-brand-orange">-</span>RAMP
               </h1>
 
               <p
