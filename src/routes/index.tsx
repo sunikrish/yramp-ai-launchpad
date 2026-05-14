@@ -364,7 +364,8 @@ function Footer() {
   return (
     <footer className="border-t border-border/40 px-6 md:px-10 py-10 bg-hero-bg">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
-        <p>© {new Date().getFullYear()} Y-RAMP</p>
+        <p>© {new Date().getFullYear()} Y<span className="text-brand-orange">-</span>RAMP</p>
+        <p className="tracking-[0.22em] text-foreground/70">Grow with Respect</p>
         <p>Engineered in Europe.</p>
       </div>
     </footer>
