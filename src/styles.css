@@ -74,6 +74,7 @@
   --ring: hsl(119 99% 46%);
   --hero-bg: hsl(0 0% 8%);
   --nav-button: hsl(0 0% 18%);
+  --brand-orange: hsl(14 92% 55%);
 }
 
 @layer base {
