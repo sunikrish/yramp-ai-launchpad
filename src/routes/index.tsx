@@ -367,7 +367,7 @@ function Footer() {
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
         <p>© {new Date().getFullYear()} Y<span className="text-brand-orange">-</span>RAMP</p>
         <p className="tracking-[0.22em] text-foreground/70">Grow with Respect</p>
-        <p>Engineered in Europe.</p>
+        <p>Engineered for Business Ramp-<span className="text-primary">Up</span></p>
       </div>
     </footer>
   );
