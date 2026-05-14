@@ -412,7 +412,7 @@ function Index() {
                   animationDelay: "0.2s",
                 }}
               >
-                Y<span className="text-brand-orange">-</span>RAMP <span className="text-primary">AI</span>
+                Y<span className="text-brand-orange">-</span>RAMP
               </h1>
 
               <p
