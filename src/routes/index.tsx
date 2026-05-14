@@ -452,10 +452,11 @@ function Index() {
               </div>
 
               <p
-                className="mt-8 text-[11px] uppercase tracking-[0.18em] text-muted-foreground/70 animate-fade-up"
+                className="mt-8 text-[11px] uppercase tracking-[0.22em] text-muted-foreground/80 animate-fade-up flex items-center gap-3"
                 style={{ animationDelay: "0.85s" }}
               >
-                Trusted AI systems partner. Europe. Production-ready deployments.
+                <span className="inline-block w-6 h-px bg-brand-orange/70" />
+                Grow with Respect
               </p>
             </div>
           </div>
