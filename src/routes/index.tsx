@@ -297,8 +297,9 @@ function ContactSection() {
           </h2>
         </Reveal>
         <Reveal delay={0.2}>
-          <p className="mt-5 text-sm uppercase tracking-[0.18em] text-muted-foreground">
-            We only take on projects we can scale with.
+          <p className="mt-5 text-sm uppercase tracking-[0.22em] text-muted-foreground flex items-center justify-center gap-3">
+            <span className="inline-block w-6 h-px bg-brand-orange/70" />
+            Grow with Respect
           </p>
         </Reveal>
 
