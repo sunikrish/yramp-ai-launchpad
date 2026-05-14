@@ -44,7 +44,7 @@ function Nav() {
   return (
     <nav className="fixed top-0 left-0 right-0 z-30 px-6 md:px-10 py-6 flex items-center justify-between">
       <a href="/" className="text-foreground font-bold tracking-[-0.02em] text-xl">
-        Y-RAMP
+        Y<span className="text-brand-orange">-</span>RAMP
       </a>
       <ul className="hidden md:flex items-center gap-8">
         {links.map((l) => (
@@ -234,9 +234,14 @@ function AboutSection() {
               Full ownership of delivery. Fast iteration cycles. Long-term product thinking.
             </p>
           </Reveal>
+          <Reveal delay={0.15}>
+            <p className="mt-6 text-base md:text-lg text-muted-foreground font-light leading-relaxed max-w-2xl">
+              We build and scale digital systems with respect—for product, process, and people.
+            </p>
+          </Reveal>
           <Reveal delay={0.2}>
             <p className="mt-8 text-2xl md:text-3xl font-medium text-foreground tracking-[-0.02em] max-w-2xl">
-              "We stay small so we can build <span className="text-primary">better systems</span> faster."
+              "We grow with <span className="text-brand-orange">respect</span>, and build <span className="text-primary">better systems</span> together."
             </p>
           </Reveal>
         </div>
@@ -292,8 +297,9 @@ function ContactSection() {
           </h2>
         </Reveal>
         <Reveal delay={0.2}>
-          <p className="mt-5 text-sm uppercase tracking-[0.18em] text-muted-foreground">
-            We only take on projects we can scale with.
+          <p className="mt-5 text-sm uppercase tracking-[0.22em] text-muted-foreground flex items-center justify-center gap-3">
+            <span className="inline-block w-6 h-px bg-brand-orange/70" />
+            Grow with Respect
           </p>
         </Reveal>
 
@@ -358,7 +364,8 @@ function Footer() {
   return (
     <footer className="border-t border-border/40 px-6 md:px-10 py-10 bg-hero-bg">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
-        <p>© {new Date().getFullYear()} Y-RAMP</p>
+        <p>© {new Date().getFullYear()} Y<span className="text-brand-orange">-</span>RAMP</p>
+        <p className="tracking-[0.22em] text-foreground/70">Grow with Respect</p>
         <p>Engineered in Europe.</p>
       </div>
     </footer>
@@ -404,7 +411,7 @@ function Index() {
                   animationDelay: "0.2s",
                 }}
               >
-                Y-<span className="text-primary">RAMP</span>
+                Y<span className="text-brand-orange">-</span>RAMP <span className="text-primary">AI</span>
               </h1>
 
               <p
@@ -452,10 +459,11 @@ function Index() {
               </div>
 
               <p
-                className="mt-8 text-[11px] uppercase tracking-[0.18em] text-muted-foreground/70 animate-fade-up"
+                className="mt-8 text-[11px] uppercase tracking-[0.22em] text-muted-foreground/80 animate-fade-up flex items-center gap-3"
                 style={{ animationDelay: "0.85s" }}
               >
-                Trusted AI systems partner. Europe. Production-ready deployments.
+                <span className="inline-block w-6 h-px bg-brand-orange/70" />
+                Grow with Respect
               </p>
             </div>
           </div>
