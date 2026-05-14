@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Suspense, lazy, useState } from "react";
 import { Reveal } from "@/components/Reveal";
+import logo from "@/assets/logo.png";
 import {
   Layers,
   Building2,
