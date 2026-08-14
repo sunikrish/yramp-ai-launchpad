@@ -1,13 +1,12 @@
+@import url("https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&display=swap");
 @import "tailwindcss" source(none);
-@source "../src";
 @import "tw-animate-css";
-
-@import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&display=swap');
+@source "../src";
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-sans: 'Sora', system-ui, sans-serif;
+  --font-sans: "Sora", system-ui, sans-serif;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -85,7 +84,8 @@
   html {
     scroll-behavior: smooth;
   }
-  html, body {
+  html,
+  body {
     background-color: var(--color-hero-bg);
     color: var(--color-foreground);
     font-family: var(--font-sans);

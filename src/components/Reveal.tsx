@@ -1,4 +1,12 @@
-import { useEffect, useRef, useState, type ReactNode, type CSSProperties, type ElementType } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type ReactNode,
+  type CSSProperties,
+  type ElementType,
+  type FormEventHandler,
+} from "react";
 
 interface RevealProps {
   children: ReactNode;
@@ -6,9 +14,17 @@ interface RevealProps {
   className?: string;
   as?: ElementType;
   id?: string;
+  onSubmit?: FormEventHandler<HTMLFormElement>;
 }
 
-export function Reveal({ children, delay = 0, className = "", as: Tag = "div", id }: RevealProps) {
+export function Reveal({
+  children,
+  delay = 0,
+  className = "",
+  as: Tag = "div",
+  id,
+  onSubmit,
+}: RevealProps) {
   const ref = useRef<HTMLElement | null>(null);
   const [shown, setShown] = useState(false);
 
@@ -35,7 +51,7 @@ export function Reveal({ children, delay = 0, className = "", as: Tag = "div", i
     : { opacity: 0 };
 
   return (
-    <Tag ref={ref} id={id} className={className} style={style}>
+    <Tag ref={ref} id={id} className={className} style={style} onSubmit={onSubmit}>
       {children}
     </Tag>
   );

@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Suspense, lazy, useState } from "react";
+import { type FormEvent, Suspense, lazy, useState } from "react";
 import { Reveal } from "@/components/Reveal";
+import { submitContact } from "@/lib/contact.functions";
 import {
   Layers,
   Building2,
@@ -18,17 +19,17 @@ export const Route = createFileRoute("/")({
   component: Index,
   head: () => ({
     meta: [
-      { title: "Y-RAMP — Modern AI Infrastructure & Security" },
+      { title: "Y-RAMP — Product Engineering for Growing Businesses" },
       {
         name: "description",
         content:
-          "Y-RAMP builds modern AI infrastructure with zero-trust architecture. Production-ready deployments for real-world operations across Europe.",
+          "Y-RAMP designs, builds, launches, and maintains web apps, mobile apps, SaaS platforms, white-label products, and the backend infrastructure behind them.",
       },
-      { property: "og:title", content: "Y-RAMP — Modern AI Infrastructure & Security" },
+      { property: "og:title", content: "Y-RAMP — Product Engineering for Growing Businesses" },
       {
         property: "og:description",
         content:
-          "Secure AI deployments with zero-trust architecture. Built for scale, not experiments.",
+          "From frontend to cloud infrastructure, Y-RAMP turns ambitious product ideas into dependable digital businesses.",
       },
     ],
   }),
@@ -37,13 +38,13 @@ export const Route = createFileRoute("/")({
 function Nav() {
   const links = [
     { label: "Services", href: "#services" },
-    { label: "Projects", href: "#projects" },
+    { label: "Mangalya", href: "#projects" },
     { label: "About", href: "#about" },
     { label: "Contacts", href: "#contact" },
   ];
   return (
     <nav className="fixed top-0 left-0 right-0 z-30 px-6 md:px-10 py-6 flex items-center justify-between">
-      <a href="/" className="flex items-center" aria-label="Y-RAMP — Grow with respect">
+      <a href="/" className="flex items-center" aria-label="Y-RAMP — Grow with passion">
         <svg
           viewBox="0 0 220 56"
           className="h-9 md:h-10 w-auto"
@@ -88,7 +89,7 @@ function Nav() {
             letterSpacing="2"
             fill="#04E83A"
           >
-            GROW WITH RESPECT
+            GROW WITH PASSION
           </text>
         </svg>
       </a>
@@ -108,7 +109,7 @@ function Nav() {
         href="#contact"
         className="hidden md:inline-flex items-center text-[11px] uppercase tracking-[0.18em] text-foreground bg-nav-button hover:bg-nav-button/80 px-5 py-2.5 rounded-full transition-colors"
       >
-        Get Quote
+        Start a Project
       </a>
     </nav>
   );
@@ -117,41 +118,34 @@ function Nav() {
 const services = [
   {
     icon: Layers,
-    title: "SaaS Product Development",
-    desc: "End-to-end SaaS systems with scalable multi-tenant architecture.",
+    title: "SaaS Platforms",
+    desc: "End-to-end, multi-tenant products designed for launch, growth, and reliable operations.",
   },
   {
     icon: Building2,
-    title: "Enterprise Software",
-    desc: "Internal tools, dashboards, automation systems, secure infrastructure.",
+    title: "Engineering Services",
+    desc: "Product architecture, backend engineering, integrations, automation, and technical delivery.",
   },
   {
     icon: Globe,
     title: "Web Applications",
-    desc: "React-based platforms, portals, and business systems.",
+    desc: "Responsive customer platforms, portals, marketplaces, and business systems.",
   },
   {
     icon: Smartphone,
     title: "Mobile Applications",
-    desc: "Cross-platform apps for business and SaaS ecosystems.",
+    desc: "Cross-platform mobile products connected to dependable APIs and cloud services.",
   },
   {
     icon: Package,
     title: "White-label Products",
-    desc: "Rebrandable SaaS foundations for fast go-to-market.",
+    desc: "Production foundations that businesses can brand, configure, and take to market faster.",
   },
   {
     icon: Compass,
-    title: "Technical Consultancy",
-    desc: "Architecture, scaling strategy, and product planning.",
+    title: "Infrastructure & Maintenance",
+    desc: "Storage, authentication, CI/CD, cloud foundations, monitoring, updates, and ongoing support.",
   },
-];
-
-const projects = [
-  { tag: "Mobile", title: "Mobile App", desc: "Production-ready business mobile application." },
-  { tag: "Web", title: "Web App", desc: "Scalable web platform delivered for real use." },
-  { tag: "SaaS", title: "SaaS Product", desc: "Full multi-tenant SaaS system." },
-  { tag: "White-label", title: "White-label Platform", desc: "Reusable system deployed for multiple clients." },
 ];
 
 function SectionHeader({ eyebrow, title }: { eyebrow: string; title: string }) {
@@ -176,7 +170,10 @@ function ServicesSection() {
   return (
     <section id="services" className="relative bg-hero-bg px-6 md:px-10 py-28 md:py-40">
       <div className="max-w-7xl mx-auto">
-        <SectionHeader eyebrow="01 — Services" title="Engineering Services for Scalable Systems" />
+        <SectionHeader
+          eyebrow="01 — Services"
+          title="Complete Product Engineering, Beyond the Frontend"
+        />
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-border/60 border border-border/60 rounded-2xl overflow-hidden">
           {services.map((s, i) => {
             const Icon = s.icon;
@@ -207,56 +204,44 @@ function ServicesSection() {
 
 function ProjectsSection() {
   return (
-    <section id="projects" className="relative bg-hero-bg px-6 md:px-10 py-28 md:py-40 border-t border-border/40">
+    <section
+      id="projects"
+      className="relative bg-hero-bg px-6 md:px-10 py-28 md:py-40 border-t border-border/40"
+    >
       <div className="max-w-7xl mx-auto">
-        <SectionHeader eyebrow="02 — Projects" title="Built Systems in Production" />
+        <SectionHeader eyebrow="02 — Our Product" title="Building Our First Product in Public" />
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-          {projects.map((p, i) => (
-            <Reveal
-              key={p.title}
-              delay={0.05 * i}
-              className="group relative rounded-2xl border border-border/60 bg-card/40 p-8 md:p-10 overflow-hidden transition-all duration-500 hover:border-primary/40 hover:-translate-y-1 hover:shadow-[0_30px_80px_-30px_hsl(119_99%_46%/0.25)]"
-            >
-              <div className="flex items-start justify-between gap-6">
-                <div>
-                  <span className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-                    {p.tag}
-                  </span>
-                  <h3 className="mt-4 text-2xl md:text-3xl font-medium text-foreground tracking-[-0.02em]">
-                    {p.title}
-                  </h3>
-                  <p className="mt-3 text-sm text-muted-foreground font-light leading-relaxed max-w-md">
-                    {p.desc}
-                  </p>
-                </div>
-                <ArrowUpRight className="w-5 h-5 text-foreground/60 group-hover:text-primary transition-colors" />
-              </div>
-              <div className="mt-10 h-32 rounded-xl bg-gradient-to-br from-secondary/60 to-hero-bg border border-border/40" />
-            </Reveal>
-          ))}
-        </div>
-
-        <Reveal delay={0.1} className="mt-6">
+        <Reveal delay={0.1}>
           <div className="group relative rounded-2xl border border-primary/30 bg-gradient-to-br from-card/80 to-hero-bg p-10 md:p-14 overflow-hidden transition-all duration-500 hover:border-primary/60 hover:shadow-[0_40px_120px_-30px_hsl(119_99%_46%/0.35)]">
-            <div className="absolute inset-0 opacity-[0.04] pointer-events-none" style={{ backgroundImage: "radial-gradient(circle at 80% 20%, hsl(var(--primary)) 0%, transparent 60%)" }} />
+            <div
+              className="absolute inset-0 opacity-[0.04] pointer-events-none"
+              style={{
+                backgroundImage:
+                  "radial-gradient(circle at 80% 20%, hsl(var(--primary)) 0%, transparent 60%)",
+              }}
+            />
             <div className="relative flex flex-col md:flex-row md:items-end md:justify-between gap-8">
               <div className="max-w-2xl">
                 <div className="flex items-center gap-3">
-                  <span className="text-[10px] uppercase tracking-[0.22em] text-primary">Featured</span>
+                  <span className="text-[10px] uppercase tracking-[0.22em] text-primary">
+                    First Y-RAMP Product
+                  </span>
                   <span className="inline-flex items-center text-[10px] uppercase tracking-[0.22em] text-foreground/70 px-2.5 py-1 rounded-full border border-border/60">
-                    In Development
+                    Launching by the end of August 2026
                   </span>
                 </div>
                 <h3
                   className="mt-5 font-semibold text-foreground tracking-[-0.03em] leading-[1.05]"
                   style={{ fontSize: "clamp(1.75rem, 3.6vw, 3rem)" }}
                 >
-                  Project Management <span className="text-primary">SaaS</span>
+                  Mangalya <span className="text-primary">SaaS Platform</span>
                 </h3>
                 <p className="mt-4 text-base text-muted-foreground font-light leading-relaxed">
-                  Our flagship internal SaaS product. Built to become a scalable commercial
-                  platform — engineered for real teams, real workflows, real scale.
+                  Mangalya is Y-RAMP's first SaaS product. It is being engineered as a complete
+                  platform—from customer experiences and operational workflows to authentication,
+                  storage, deployment pipelines, and production infrastructure. We are a newly
+                  launching company, so we present our own product work honestly while we earn our
+                  first customer partnerships.
                 </p>
               </div>
               <ArrowUpRight className="w-6 h-6 text-primary shrink-0" />
@@ -270,32 +255,48 @@ function ProjectsSection() {
 
 function AboutSection() {
   return (
-    <section id="about" className="relative bg-hero-bg px-6 md:px-10 py-28 md:py-40 border-t border-border/40">
+    <section
+      id="about"
+      className="relative bg-hero-bg px-6 md:px-10 py-28 md:py-40 border-t border-border/40"
+    >
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20">
         <div className="lg:col-span-7">
-          <SectionHeader eyebrow="03 — About" title="Small Team. Full Ownership." />
+          <SectionHeader
+            eyebrow="03 — About"
+            title="A Product Engineering Partner for Growing Businesses"
+          />
           <Reveal delay={0.1}>
             <p className="text-lg md:text-xl text-foreground/80 font-light leading-relaxed max-w-2xl">
-              Y-RAMP is a lean 2-person engineering studio. No outsourcing.
-              Full ownership of delivery. Fast iteration cycles. Long-term product thinking.
+              Y-RAMP Technologies LLP is a lean product engineering company for founders and growing
+              businesses. We build web applications, mobile applications, SaaS platforms, and
+              white-label products with full ownership of delivery.
             </p>
           </Reveal>
           <Reveal delay={0.15}>
             <p className="mt-6 text-base md:text-lg text-muted-foreground font-light leading-relaxed max-w-2xl">
-              We build and scale digital systems with respect—for product, process, and people.
+              AI can accelerate frontend creation, but a dependable business still needs sound
+              architecture behind it. We establish storage, authentication, APIs, CI/CD pipelines,
+              cloud infrastructure, monitoring, and long-term application maintenance.
             </p>
           </Reveal>
           <Reveal delay={0.2}>
             <p className="mt-8 text-2xl md:text-3xl font-medium text-foreground tracking-[-0.02em] max-w-2xl">
-              "We grow with <span className="text-brand-orange">respect</span>, and build <span className="text-primary">better systems</span> together."
+              "We <span className="text-brand-orange">grow with passion</span>, and build{" "}
+              <span className="text-primary">dependable products</span> together."
             </p>
           </Reveal>
         </div>
 
         <div className="lg:col-span-5 space-y-4">
           {[
-            { role: "Software Engineer", desc: "Full-stack, architecture, systems." },
-            { role: "Project Manager", desc: "Delivery, execution, client coordination." },
+            {
+              role: "Product Engineering",
+              desc: "Frontend, backend, architecture, infrastructure, and delivery.",
+            },
+            {
+              role: "Project Delivery",
+              desc: "Planning, execution, communication, launch, and ongoing support.",
+            },
           ].map((m, i) => (
             <Reveal
               key={m.role}
@@ -303,14 +304,21 @@ function AboutSection() {
               className="rounded-2xl border border-border/60 bg-card/40 p-7 hover:border-primary/40 transition-colors"
             >
               <p className="text-[10px] uppercase tracking-[0.22em] text-primary">Team</p>
-              <h4 className="mt-3 text-xl font-medium text-foreground tracking-[-0.01em]">{m.role}</h4>
+              <h4 className="mt-3 text-xl font-medium text-foreground tracking-[-0.01em]">
+                {m.role}
+              </h4>
               <p className="mt-2 text-sm text-muted-foreground font-light">{m.desc}</p>
             </Reveal>
           ))}
 
           <Reveal delay={0.4} className="rounded-2xl border border-border/60 bg-card/40 p-7">
             <ul className="space-y-3 text-sm text-foreground/80">
-              {["No outsourcing", "Full ownership of delivery", "Fast iteration cycles", "Long-term product thinking"].map((p) => (
+              {[
+                "Full-lifecycle ownership",
+                "Backend foundations included",
+                "Launch and maintenance support",
+                "India-first, globally available",
+              ].map((p) => (
                 <li key={p} className="flex items-center gap-3">
                   <span className="w-1.5 h-1.5 rounded-full bg-primary" />
                   {p}
@@ -325,11 +333,28 @@ function AboutSection() {
 }
 
 function ContactSection() {
-  const [form, setForm] = useState({ name: "", email: "", message: "" });
-  const [sent, setSent] = useState(false);
+  const [form, setForm] = useState({ name: "", email: "", message: "", companyWebsite: "" });
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setStatus("sending");
+
+    try {
+      await submitContact({ data: form });
+      setStatus("sent");
+      setForm({ name: "", email: "", message: "", companyWebsite: "" });
+    } catch (error) {
+      console.error(error);
+      setStatus("error");
+    }
+  }
 
   return (
-    <section id="contact" className="relative bg-hero-bg px-6 md:px-10 py-28 md:py-40 border-t border-border/40">
+    <section
+      id="contact"
+      className="relative bg-hero-bg px-6 md:px-10 py-28 md:py-40 border-t border-border/40"
+    >
       <div className="max-w-2xl mx-auto text-center">
         <Reveal>
           <p className="text-[11px] uppercase tracking-[0.22em] text-primary mb-5">04 — Contact</p>
@@ -345,15 +370,26 @@ function ContactSection() {
         <Reveal delay={0.2}>
           <p className="mt-5 text-sm uppercase tracking-[0.22em] text-muted-foreground flex items-center justify-center gap-3">
             <span className="inline-block w-6 h-px bg-brand-orange/70" />
-            Grow with Respect
+            Grow with Passion
           </p>
         </Reveal>
 
-        <Reveal delay={0.3} as="form" className="mt-12 text-left space-y-4">
+        <Reveal delay={0.3} as="form" className="mt-12 text-left space-y-4" onSubmit={handleSubmit}>
           <div>
-            <label className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">Name</label>
+            <label
+              htmlFor="contact-name"
+              className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground"
+            >
+              Name
+            </label>
             <input
+              id="contact-name"
+              name="name"
               type="text"
+              autoComplete="name"
+              required
+              minLength={2}
+              maxLength={100}
               value={form.name}
               onChange={(e) => setForm({ ...form, name: e.target.value })}
               className="mt-2 w-full bg-transparent border-b border-border/60 focus:border-primary outline-none py-3 text-foreground placeholder:text-muted-foreground/40 transition-colors"
@@ -361,9 +397,19 @@ function ContactSection() {
             />
           </div>
           <div>
-            <label className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">Email</label>
+            <label
+              htmlFor="contact-email"
+              className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground"
+            >
+              Email
+            </label>
             <input
+              id="contact-email"
+              name="email"
               type="email"
+              autoComplete="email"
+              required
+              maxLength={254}
               value={form.email}
               onChange={(e) => setForm({ ...form, email: e.target.value })}
               className="mt-2 w-full bg-transparent border-b border-border/60 focus:border-primary outline-none py-3 text-foreground placeholder:text-muted-foreground/40 transition-colors"
@@ -371,35 +417,70 @@ function ContactSection() {
             />
           </div>
           <div>
-            <label className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">Message</label>
+            <label
+              htmlFor="contact-message"
+              className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground"
+            >
+              Message
+            </label>
             <textarea
+              id="contact-message"
+              name="message"
               rows={4}
+              required
+              minLength={20}
+              maxLength={5000}
               value={form.message}
               onChange={(e) => setForm({ ...form, message: e.target.value })}
               className="mt-2 w-full bg-transparent border-b border-border/60 focus:border-primary outline-none py-3 text-foreground placeholder:text-muted-foreground/40 transition-colors resize-none"
               placeholder="Tell us about your project"
             />
           </div>
+          <div className="absolute -left-[10000px]" aria-hidden="true">
+            <label htmlFor="company-website">Company website</label>
+            <input
+              id="company-website"
+              name="companyWebsite"
+              type="text"
+              tabIndex={-1}
+              autoComplete="off"
+              value={form.companyWebsite}
+              onChange={(e) => setForm({ ...form, companyWebsite: e.target.value })}
+            />
+          </div>
 
           <div className="pt-6 flex flex-col sm:flex-row items-center gap-4">
             <button
-              type="button"
-              onClick={(e) => {
-                e.preventDefault();
-                if (form.name && form.email && form.message) setSent(true);
-              }}
+              type="submit"
+              disabled={status === "sending"}
               className="w-full sm:w-auto inline-flex items-center justify-center bg-primary text-primary-foreground px-8 py-3.5 rounded-full text-[12px] uppercase tracking-[0.18em] font-medium transition-all duration-300 hover:brightness-110 hover:scale-[1.03]"
             >
-              {sent ? "Sent — we'll be in touch" : "Book a Call"}
+              {status === "sending" ? "Sending…" : "Send Enquiry"}
             </button>
             <a
-              href="mailto:hello@yramp.ai"
+              href="mailto:hello@yramp.com"
               className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
             >
               <Mail className="w-4 h-4" />
-              hello@yramp.ai
+              hello@yramp.com
             </a>
           </div>
+          <p
+            aria-live="polite"
+            className={`text-sm ${status === "error" ? "text-destructive" : "text-primary"}`}
+          >
+            {status === "sent" &&
+              "Thank you. Your message was sent, and an acknowledgment is on its way."}
+            {status === "error" &&
+              "We couldn't send your message. Please email hello@yramp.com directly."}
+          </p>
+          <p className="text-xs text-muted-foreground">
+            By sending this form, you agree to our{" "}
+            <a href="/privacy" className="underline hover:text-primary">
+              Privacy Policy
+            </a>
+            .
+          </p>
         </Reveal>
       </div>
     </section>
@@ -410,9 +491,19 @@ function Footer() {
   return (
     <footer className="border-t border-border/40 px-6 md:px-10 py-10 bg-hero-bg">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
-        <p>© {new Date().getFullYear()} Y<span className="text-brand-orange">-</span>RAMP</p>
-        <p className="tracking-[0.22em] text-foreground/70">Grow with Respect</p>
-        <p>Engineered for Business Ramp-<span className="text-primary">Up</span></p>
+        <p>© {new Date().getFullYear()} Y-RAMP Technologies LLP</p>
+        <p className="tracking-[0.22em] text-foreground/70">Grow with Passion</p>
+        <div className="flex flex-wrap justify-center gap-4">
+          <a href="/privacy" className="hover:text-primary">
+            Privacy
+          </a>
+          <a href="/terms" className="hover:text-primary">
+            Terms
+          </a>
+          <a href="/legal-notice" className="hover:text-primary">
+            Legal Notice
+          </a>
+        </div>
       </div>
     </footer>
   );
@@ -442,8 +533,7 @@ function Index() {
           <div
             className="absolute inset-0 z-10 pointer-events-none"
             style={{
-              background:
-                "linear-gradient(to right, hsl(0 0% 6% / 0.6) 0%, transparent 50%)",
+              background: "linear-gradient(to right, hsl(0 0% 6% / 0.6) 0%, transparent 50%)",
             }}
           />
 
@@ -467,7 +557,7 @@ function Index() {
                   animationDelay: "0.4s",
                 }}
               >
-                We implement systems correctly.
+                From product idea to dependable infrastructure.
               </p>
 
               <p
@@ -477,13 +567,13 @@ function Index() {
                   animationDelay: "0.55s",
                 }}
               >
-                Modern AI infrastructure built fast.
+                Web, mobile, SaaS, and white-label products.
                 <br />
-                Secure deployments with zero-trust architecture.
+                Backend architecture, storage, authentication, and CI/CD.
                 <br />
-                Intelligent systems for real-world operations.
+                Launch support and long-term application maintenance.
                 <br />
-                Built for scale, not experiments.
+                Built in India for ambitious businesses everywhere.
               </p>
 
               <div
@@ -494,13 +584,13 @@ function Index() {
                   href="#contact"
                   className="group inline-flex items-center justify-center bg-primary text-primary-foreground px-7 py-3.5 rounded-full text-[12px] uppercase tracking-[0.18em] font-medium transition-all duration-300 hover:brightness-110 hover:scale-[1.03]"
                 >
-                  Book a Call
+                  Start a Project
                 </a>
                 <a
                   href="#projects"
                   className="inline-flex items-center justify-center bg-foreground text-background px-7 py-3.5 rounded-full text-[12px] uppercase tracking-[0.18em] font-medium transition-all duration-300 hover:bg-foreground/90 hover:scale-[1.03]"
                 >
-                  Our Work
+                  Meet Mangalya
                 </a>
               </div>
 
@@ -509,7 +599,7 @@ function Index() {
                 style={{ animationDelay: "0.85s" }}
               >
                 <span className="inline-block w-6 h-px bg-brand-orange/70" />
-                Grow with Respect
+                Grow with Passion
               </p>
             </div>
           </div>
