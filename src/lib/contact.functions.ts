@@ -48,7 +48,7 @@ async function sendBrevoEmail(apiKey: string, email: BrevoEmail) {
 }
 
 export const submitContact = createServerFn({ method: "POST" })
-  .validator(contactSchema)
+  .inputValidator(contactSchema)
   .handler(async ({ data }) => {
     if (data.companyWebsite) {
       return { success: true };
