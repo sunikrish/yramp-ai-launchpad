@@ -1,4 +1,5 @@
 import "./lib/error-capture";
+import { env as cloudflareEnv } from "cloudflare:workers";
 
 import { consumeLastCapturedError } from "./lib/error-capture";
 import { renderErrorPage } from "./lib/error-page";
@@ -110,12 +111,13 @@ function withSecurityHeaders(response: Response): Response {
   });
 }
 
-async function enforceContactRateLimit(request: Request, env: WorkerEnv) {
-  if (request.method !== "POST" || !env.CONTACT_RATE_LIMITER) return null;
+async function enforceContactRateLimit(request: Request) {
+  const workerEnv = cloudflareEnv as WorkerEnv;
+  if (request.method !== "POST" || !workerEnv.CONTACT_RATE_LIMITER) return null;
 
   const clientIp = request.headers.get("CF-Connecting-IP") ?? "unknown";
   const pathname = new URL(request.url).pathname;
-  const result = await env.CONTACT_RATE_LIMITER.limit({ key: `${clientIp}:${pathname}` });
+  const result = await workerEnv.CONTACT_RATE_LIMITER.limit({ key: `${clientIp}:${pathname}` });
 
   if (result.success) return null;
 
@@ -131,7 +133,7 @@ async function enforceContactRateLimit(request: Request, env: WorkerEnv) {
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
     try {
-      const rateLimitResponse = await enforceContactRateLimit(request, env as WorkerEnv);
+      const rateLimitResponse = await enforceContactRateLimit(request);
       if (rateLimitResponse) return withSecurityHeaders(rateLimitResponse);
 
       const handler = await getServerEntry();
