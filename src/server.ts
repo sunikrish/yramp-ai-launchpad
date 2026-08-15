@@ -115,9 +115,8 @@ async function enforceContactRateLimit(request: Request) {
   const workerEnv = cloudflareEnv as WorkerEnv;
   if (request.method !== "POST" || !workerEnv.CONTACT_RATE_LIMITER) return null;
 
-  const clientIp = request.headers.get("CF-Connecting-IP") ?? "unknown";
   const pathname = new URL(request.url).pathname;
-  const result = await workerEnv.CONTACT_RATE_LIMITER.limit({ key: `${clientIp}:${pathname}` });
+  const result = await workerEnv.CONTACT_RATE_LIMITER.limit({ key: `contact:${pathname}` });
 
   if (result.success) return null;
 
