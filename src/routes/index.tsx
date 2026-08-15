@@ -169,7 +169,7 @@ function ProjectsSection() {
       className="relative bg-hero-bg px-6 md:px-10 py-28 md:py-40 border-t border-border/40"
     >
       <div className="max-w-7xl mx-auto">
-        <SectionHeader eyebrow="02 — Our Product" title="Building Our First Product in Public" />
+        <SectionHeader eyebrow="02 — Our Product" title="Meet Mangalya" />
 
         <Reveal delay={0.1}>
           <div className="group relative rounded-2xl border border-primary/30 bg-gradient-to-br from-card/80 to-hero-bg p-10 md:p-14 overflow-hidden transition-all duration-500 hover:border-primary/60 hover:shadow-[0_40px_120px_-30px_hsl(119_99%_46%/0.35)]">
@@ -194,17 +194,24 @@ function ProjectsSection() {
                   className="mt-5 font-semibold text-foreground tracking-[-0.03em] leading-[1.05]"
                   style={{ fontSize: "clamp(1.75rem, 3.6vw, 3rem)" }}
                 >
-                  Mangalya <span className="text-primary">SaaS Platform</span>
+                  Made for <span className="text-primary">Event Managers</span>
                 </h3>
                 <p className="mt-4 text-base text-muted-foreground font-light leading-relaxed">
-                  Mangalya is Y-RAMP's first SaaS product. It is being engineered as a complete
-                  platform—from customer experiences and operational workflows to authentication,
-                  storage, deployment pipelines, and production infrastructure. We are a newly
-                  launching company, so we present our own product work honestly while we earn our
-                  first customer partnerships.
+                  Mangalya is Y-RAMP's own SaaS platform, created to help event managers bring every
+                  part of their work together. It turns complex event operations into a more
+                  connected, organised, and confident experience—so professionals can spend less
+                  time managing complexity and more time creating memorable events.
                 </p>
               </div>
-              <ArrowUpRight className="w-6 h-6 text-primary shrink-0" />
+              <a
+                href="https://mangalya.yramp.com/"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-primary hover:text-primary/80 transition-colors"
+              >
+                Explore Mangalya
+                <ArrowUpRight className="w-5 h-5 shrink-0" />
+              </a>
             </div>
           </div>
         </Reveal>
@@ -517,7 +524,7 @@ function Index() {
                   animationDelay: "0.4s",
                 }}
               >
-                From product idea to dependable infrastructure.
+                Your ambition, built to grow.
               </p>
 
               <p
@@ -527,13 +534,10 @@ function Index() {
                   animationDelay: "0.55s",
                 }}
               >
-                Web, mobile, SaaS, and white-label products.
-                <br />
-                Backend architecture, storage, authentication, and CI/CD.
-                <br />
-                Launch support and long-term application maintenance.
-                <br />
-                Built in India for ambitious businesses everywhere.
+                Y-RAMP partners with founders and growing businesses to turn bold ideas into digital
+                products people value. From the first conversation to launch and beyond, we bring
+                thoughtful strategy, purposeful design, and dependable delivery together to help
+                your business move forward with confidence.
               </p>
 
               <div
