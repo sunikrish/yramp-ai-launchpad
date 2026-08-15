@@ -12,8 +12,27 @@ type RateLimiter = {
   limit: (options: { key: string }) => Promise<{ success: boolean }>;
 };
 
+type DurableObjectId = object;
+
+type DurableObjectNamespace = {
+  idFromName: (name: string) => DurableObjectId;
+  get: (id: DurableObjectId) => { fetch: (request: Request) => Promise<Response> };
+};
+
+type DurableObjectTransaction = {
+  get: <T>(key: string) => Promise<T | undefined>;
+  put: <T>(key: string, value: T) => Promise<void>;
+};
+
+type DurableObjectState = {
+  storage: {
+    transaction: <T>(callback: (transaction: DurableObjectTransaction) => Promise<T>) => Promise<T>;
+  };
+};
+
 type WorkerEnv = {
   CONTACT_RATE_LIMITER?: RateLimiter;
+  CONTACT_RATE_LIMITER_DO?: DurableObjectNamespace;
 };
 
 const SECURITY_HEADERS = {
@@ -41,8 +60,32 @@ const SECURITY_HEADERS = {
 
 const CONTACT_RATE_LIMIT = 5;
 const CONTACT_RATE_WINDOW_MS = 60_000;
-let contactRateWindowStartedAt = 0;
-let contactRateWindowCount = 0;
+
+type ContactRateBucket = {
+  count: number;
+  startedAt: number;
+};
+
+export class ContactRateLimiter {
+  constructor(private readonly state: DurableObjectState) {}
+
+  async fetch() {
+    const now = Date.now();
+    const allowed = await this.state.storage.transaction(async (transaction) => {
+      let bucket = await transaction.get<ContactRateBucket>("contact-form");
+
+      if (!bucket || now - bucket.startedAt >= CONTACT_RATE_WINDOW_MS) {
+        bucket = { count: 0, startedAt: now };
+      }
+
+      bucket.count += 1;
+      await transaction.put("contact-form", bucket);
+      return bucket.count <= CONTACT_RATE_LIMIT;
+    });
+
+    return new Response(null, { status: allowed ? 204 : 429 });
+  }
+}
 
 let serverEntryPromise: Promise<ServerEntry> | undefined;
 
@@ -120,14 +163,27 @@ async function enforceContactRateLimit(request: Request) {
   const workerEnv = cloudflareEnv as WorkerEnv;
   if (request.method !== "POST") return null;
 
-  const now = Date.now();
-  if (now - contactRateWindowStartedAt >= CONTACT_RATE_WINDOW_MS) {
-    contactRateWindowStartedAt = now;
-    contactRateWindowCount = 0;
+  if (workerEnv.CONTACT_RATE_LIMITER_DO) {
+    const id = workerEnv.CONTACT_RATE_LIMITER_DO.idFromName("contact-form-global");
+    const stub = workerEnv.CONTACT_RATE_LIMITER_DO.get(id);
+    const response = await stub.fetch(new Request("https://contact-rate-limiter/limit"));
+    if (response.status === 429) {
+      return new Response("Too many requests. Please try again in a minute.", {
+        status: 429,
+        headers: {
+          "content-type": "text/plain; charset=utf-8",
+          "retry-after": "60",
+        },
+      });
+    }
   }
 
-  contactRateWindowCount += 1;
-  if (contactRateWindowCount > CONTACT_RATE_LIMIT) {
+  if (!workerEnv.CONTACT_RATE_LIMITER) return null;
+
+  const pathname = new URL(request.url).pathname;
+  const result = await workerEnv.CONTACT_RATE_LIMITER.limit({ key: `contact:${pathname}` });
+
+  if (!result.success) {
     return new Response("Too many requests. Please try again in a minute.", {
       status: 429,
       headers: {
@@ -137,20 +193,7 @@ async function enforceContactRateLimit(request: Request) {
     });
   }
 
-  if (!workerEnv.CONTACT_RATE_LIMITER) return null;
-
-  const pathname = new URL(request.url).pathname;
-  const result = await workerEnv.CONTACT_RATE_LIMITER.limit({ key: `contact:${pathname}` });
-
-  if (result.success) return null;
-
-  return new Response("Too many requests. Please try again in a minute.", {
-    status: 429,
-    headers: {
-      "content-type": "text/plain; charset=utf-8",
-      "retry-after": "60",
-    },
-  });
+  return null;
 }
 
 export default {

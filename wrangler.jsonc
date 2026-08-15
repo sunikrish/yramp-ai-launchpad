@@ -4,6 +4,20 @@
   "compatibility_date": "2025-09-24",
   "compatibility_flags": ["nodejs_compat"],
   "main": "src/server.ts",
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "CONTACT_RATE_LIMITER_DO",
+        "class_name": "ContactRateLimiter"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["ContactRateLimiter"]
+    }
+  ],
   "ratelimits": [
     {
       "name": "CONTACT_RATE_LIMITER",
