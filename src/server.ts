@@ -7,6 +7,37 @@ type ServerEntry = {
   fetch: (request: Request, env: unknown, ctx: unknown) => Promise<Response> | Response;
 };
 
+type RateLimiter = {
+  limit: (options: { key: string }) => Promise<{ success: boolean }>;
+};
+
+type WorkerEnv = {
+  CONTACT_RATE_LIMITER?: RateLimiter;
+};
+
+const SECURITY_HEADERS = {
+  "Content-Security-Policy": [
+    "default-src 'self'",
+    "base-uri 'self'",
+    "connect-src 'self' https://prod.spline.design",
+    "font-src 'self' https://fonts.gstatic.com data:",
+    "form-action 'self'",
+    "frame-ancestors 'none'",
+    "img-src 'self' data: blob:",
+    "object-src 'none'",
+    "script-src 'self' 'unsafe-inline'",
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+    "worker-src 'self' blob:",
+    "upgrade-insecure-requests",
+  ].join("; "),
+  "Cross-Origin-Opener-Policy": "same-origin",
+  "Permissions-Policy": "camera=(), geolocation=(), microphone=(), payment=(), usb=()",
+  "Referrer-Policy": "strict-origin-when-cross-origin",
+  "Strict-Transport-Security": "max-age=15552000",
+  "X-Content-Type-Options": "nosniff",
+  "X-Frame-Options": "DENY",
+} as const;
+
 let serverEntryPromise: Promise<ServerEntry> | undefined;
 
 async function getServerEntry(): Promise<ServerEntry> {
@@ -66,15 +97,49 @@ async function normalizeCatastrophicSsrResponse(response: Response): Promise<Res
   return brandedErrorResponse();
 }
 
+function withSecurityHeaders(response: Response): Response {
+  const headers = new Headers(response.headers);
+  for (const [name, value] of Object.entries(SECURITY_HEADERS)) {
+    headers.set(name, value);
+  }
+
+  return new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers,
+  });
+}
+
+async function enforceContactRateLimit(request: Request, env: WorkerEnv) {
+  if (request.method !== "POST" || !env.CONTACT_RATE_LIMITER) return null;
+
+  const clientIp = request.headers.get("CF-Connecting-IP") ?? "unknown";
+  const pathname = new URL(request.url).pathname;
+  const result = await env.CONTACT_RATE_LIMITER.limit({ key: `${clientIp}:${pathname}` });
+
+  if (result.success) return null;
+
+  return new Response("Too many requests. Please try again in a minute.", {
+    status: 429,
+    headers: {
+      "content-type": "text/plain; charset=utf-8",
+      "retry-after": "60",
+    },
+  });
+}
+
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
     try {
+      const rateLimitResponse = await enforceContactRateLimit(request, env as WorkerEnv);
+      if (rateLimitResponse) return withSecurityHeaders(rateLimitResponse);
+
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);
-      return await normalizeCatastrophicSsrResponse(response);
+      return withSecurityHeaders(await normalizeCatastrophicSsrResponse(response));
     } catch (error) {
       console.error(error);
-      return brandedErrorResponse();
+      return withSecurityHeaders(brandedErrorResponse());
     }
   },
 };
