@@ -108,7 +108,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
     ],
     links: [
-      { rel: "canonical", href: "https://yramp.com/" },
       {
         rel: "stylesheet",
         href: appCss,
