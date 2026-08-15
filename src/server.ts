@@ -39,6 +39,11 @@ const SECURITY_HEADERS = {
   "X-Frame-Options": "DENY",
 } as const;
 
+const CONTACT_RATE_LIMIT = 5;
+const CONTACT_RATE_WINDOW_MS = 60_000;
+let contactRateWindowStartedAt = 0;
+let contactRateWindowCount = 0;
+
 let serverEntryPromise: Promise<ServerEntry> | undefined;
 
 async function getServerEntry(): Promise<ServerEntry> {
@@ -113,7 +118,26 @@ function withSecurityHeaders(response: Response): Response {
 
 async function enforceContactRateLimit(request: Request) {
   const workerEnv = cloudflareEnv as WorkerEnv;
-  if (request.method !== "POST" || !workerEnv.CONTACT_RATE_LIMITER) return null;
+  if (request.method !== "POST") return null;
+
+  const now = Date.now();
+  if (now - contactRateWindowStartedAt >= CONTACT_RATE_WINDOW_MS) {
+    contactRateWindowStartedAt = now;
+    contactRateWindowCount = 0;
+  }
+
+  contactRateWindowCount += 1;
+  if (contactRateWindowCount > CONTACT_RATE_LIMIT) {
+    return new Response("Too many requests. Please try again in a minute.", {
+      status: 429,
+      headers: {
+        "content-type": "text/plain; charset=utf-8",
+        "retry-after": "60",
+      },
+    });
+  }
+
+  if (!workerEnv.CONTACT_RATE_LIMITER) return null;
 
   const pathname = new URL(request.url).pathname;
   const result = await workerEnv.CONTACT_RATE_LIMITER.limit({ key: `contact:${pathname}` });
