@@ -10,7 +10,9 @@ export const Route = createFileRoute("/privacy")({
         name: "description",
         content: "How Y-RAMP Technologies LLP collects, uses, and protects personal data.",
       },
+      { property: "og:url", content: "https://yramp.com/privacy" },
     ],
+    links: [{ rel: "canonical", href: "https://yramp.com/privacy" }],
   }),
 });
 

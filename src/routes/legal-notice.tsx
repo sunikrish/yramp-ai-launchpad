@@ -10,7 +10,9 @@ export const Route = createFileRoute("/legal-notice")({
         name: "description",
         content: "Legal and contact information for Y-RAMP Technologies LLP.",
       },
+      { property: "og:url", content: "https://yramp.com/legal-notice" },
     ],
+    links: [{ rel: "canonical", href: "https://yramp.com/legal-notice" }],
   }),
 });
 

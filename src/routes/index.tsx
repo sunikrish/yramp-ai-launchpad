@@ -19,19 +19,21 @@ export const Route = createFileRoute("/")({
   component: Index,
   head: () => ({
     meta: [
-      { title: "Y-RAMP — Product Engineering for Growing Businesses" },
+      { title: "Y-RAMP — Digital Products Built to Grow" },
       {
         name: "description",
         content:
-          "Y-RAMP designs, builds, launches, and maintains web apps, mobile apps, SaaS platforms, white-label products, and the backend infrastructure behind them.",
+          "Y-RAMP partners with founders and growing businesses to turn bold ideas into valuable web, mobile, and SaaS products—from first conversation to launch and beyond.",
       },
-      { property: "og:title", content: "Y-RAMP — Product Engineering for Growing Businesses" },
+      { property: "og:title", content: "Y-RAMP — Digital Products Built to Grow" },
       {
         property: "og:description",
         content:
-          "From frontend to cloud infrastructure, Y-RAMP turns ambitious product ideas into dependable digital businesses.",
+          "Thoughtful strategy, purposeful design, and dependable delivery for ambitious businesses.",
       },
+      { property: "og:url", content: "https://yramp.com/" },
     ],
+    links: [{ rel: "canonical", href: "https://yramp.com/" }],
   }),
 });
 

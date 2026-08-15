@@ -76,21 +76,60 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "description",
         content:
-          "Product engineering for web, mobile, SaaS, white-label products, backend infrastructure, and application maintenance.",
+          "Y-RAMP partners with founders and growing businesses to turn bold ideas into valuable digital products—from first conversation to launch and beyond.",
       },
       { name: "author", content: "Y-RAMP Technologies LLP" },
-      { property: "og:title", content: "Y-RAMP Technologies LLP" },
+      { property: "og:title", content: "Y-RAMP — Digital Products Built to Grow" },
       {
         property: "og:description",
-        content: "From product idea to dependable infrastructure. Grow with passion.",
+        content:
+          "Thoughtful strategy, purposeful design, and dependable delivery for ambitious businesses.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:site_name", content: "Y-RAMP" },
+      { property: "og:url", content: "https://yramp.com/" },
+      {
+        property: "og:image",
+        content: "https://yramp.com/branding/marketing/yramp-open-graph-1200x630.png",
+      },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      { property: "og:image:alt", content: "Y-RAMP — Grow with Passion" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Y-RAMP — Digital Products Built to Grow" },
+      {
+        name: "twitter:description",
+        content:
+          "Thoughtful strategy, purposeful design, and dependable delivery for ambitious businesses.",
+      },
+      {
+        name: "twitter:image",
+        content: "https://yramp.com/branding/marketing/yramp-open-graph-1200x630.png",
+      },
     ],
     links: [
+      { rel: "canonical", href: "https://yramp.com/" },
       {
         rel: "stylesheet",
         href: appCss,
+      },
+      { rel: "icon", href: "/branding/yramp-favicon.ico", sizes: "any" },
+      {
+        rel: "icon",
+        type: "image/png",
+        sizes: "32x32",
+        href: "/branding/marks/transparent/yramp-y-32.png",
+      },
+      {
+        rel: "icon",
+        type: "image/png",
+        sizes: "192x192",
+        href: "/branding/marks/transparent/yramp-y-192.png",
+      },
+      {
+        rel: "apple-touch-icon",
+        sizes: "180x180",
+        href: "/branding/marks/hero-gray/yramp-y-gray-180.png",
       },
     ],
   }),

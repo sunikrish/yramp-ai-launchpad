@@ -7,7 +7,9 @@ export const Route = createFileRoute("/terms")({
     meta: [
       { title: "Website Terms — Y-RAMP" },
       { name: "description", content: "Terms governing use of the Y-RAMP website." },
+      { property: "og:url", content: "https://yramp.com/terms" },
     ],
+    links: [{ rel: "canonical", href: "https://yramp.com/terms" }],
   }),
 });
 
